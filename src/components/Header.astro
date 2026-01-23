@@ -2,6 +2,12 @@
 import Container from "@components/Container.astro";
 import Link from "@components/Link.astro";
 import { SITE } from "@consts";
+
+interface Props {
+  projectCount?: number;
+}
+
+const { projectCount = 0 } = Astro.props;
 ---
 
 <header transition:persist>
@@ -14,13 +20,13 @@ import { SITE } from "@consts";
       </Link>
       <nav class="flex items-center gap-1 text-sm">
         <Link href="/blog">blog</Link>
-        <span>
-          {`/`}
-        </span>
-        <Link href="/projects">projects</Link>
-        <span>
-          {`/`}
-        </span>
+        {projectCount > 0 && (
+          <>
+            <span>/</span>
+            <Link href="/projects">projects</Link>
+          </>
+        )}
+        <span>/</span>
         <button
           id="magnifying-glass"
           aria-label="Search"
