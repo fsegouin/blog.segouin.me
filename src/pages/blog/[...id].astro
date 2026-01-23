@@ -86,7 +86,7 @@ const { Content, headings } = await render(post);
         ) : null
       }
     </div>
-    {headings.length > 0 && <TableOfContents headings={headings} />}
+    {post.data.toc !== false && headings.length > 0 && <TableOfContents headings={headings} />}
     <article class="animate">
       <Content />
       <div class="mt-24">
