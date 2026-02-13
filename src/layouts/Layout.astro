@@ -5,6 +5,7 @@ import Footer from "@components/Footer.astro";
 import Pagefind from "@components/PageFind.astro";
 import { SITE } from "@consts";
 import { getCollection } from "astro:content";
+import Analytics from "@vercel/analytics/astro";
 
 type Props = {
   title: string;
@@ -36,5 +37,6 @@ const projects = await getCollection("projects", ({ data }) => !data.draft);
     </main>
     <Footer />
     <Pagefind />
+    <Analytics />
   </body>
 </html>
