@@ -11,7 +11,7 @@
     Consolas, 'Liberation Mono', 'Courier New', monospace;
 
   /* Gruvbox color palette */
-  --color-gruvbox-bg: #fbf1c7;
+  --color-gruvbox-bg: #ebdbb2;
   --color-gruvbox-bg-soft: #f2e5bc;
   --color-gruvbox-fg: #3c3836;
   --color-gruvbox-fg-muted: #665c54;
@@ -115,12 +115,12 @@ html.dark {
 
   header {
     @apply fixed left-0 right-0 top-0 z-50 py-6;
-    background-color: color-mix(in srgb, var(--color-gruvbox-bg) 75%, transparent);
-    @apply saturate-200 backdrop-blur-xs;
+    background-color: transparent;
+    @apply backdrop-blur-sm;
   }
 
   html.dark header {
-    background-color: color-mix(in srgb, var(--color-gruvbox-dark-bg) 75%, transparent);
+    background-color: transparent;
   }
 
   main {
