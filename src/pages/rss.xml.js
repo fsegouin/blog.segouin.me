@@ -21,7 +21,7 @@ export async function GET(context) {
       title: item.data.title,
       description: item.data.description,
       pubDate: item.data.date,
-      link: `/${item.collection}/${item.collection === "blog" ? item.data.slug : item.id}/`,
+      link: item.collection === "blog" ? `/${item.data.slug}/` : `/${item.collection}/${item.id}/`,
     })),
   });
 }
