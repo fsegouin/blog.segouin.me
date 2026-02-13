@@ -8,7 +8,7 @@ const colors = {
   orange: "#fe8019",
 };
 
-export function getOgTemplate(title: string, tags: string[] = []) {
+export function getOgTemplate(title: string, description: string, tags: string[] = []) {
   return {
     type: "div",
     props: {
@@ -35,20 +35,45 @@ export function getOgTemplate(title: string, tags: string[] = []) {
             children: "blog.segouin.me",
           },
         },
-        // Center: title
+        // Center: title + description
         {
           type: "div",
           props: {
             style: {
               display: "flex",
-              fontFamily: "Geist Sans",
-              fontWeight: 700,
-              fontSize: "56px",
-              color: colors.fg,
-              lineHeight: 1.2,
-              maxWidth: "900px",
+              flexDirection: "column",
+              gap: "16px",
             },
-            children: title,
+            children: [
+              {
+                type: "div",
+                props: {
+                  style: {
+                    display: "flex",
+                    fontFamily: "Geist Sans",
+                    fontWeight: 700,
+                    fontSize: "56px",
+                    color: colors.fg,
+                    lineHeight: 1.2,
+                    maxWidth: "900px",
+                  },
+                  children: title,
+                },
+              },
+              {
+                type: "div",
+                props: {
+                  style: {
+                    display: "flex",
+                    fontFamily: "Geist Sans",
+                    fontSize: "24px",
+                    color: colors.fgMuted,
+                    maxWidth: "900px",
+                  },
+                  children: description,
+                },
+              },
+            ],
           },
         },
         // Bottom: tags + author

@@ -18,7 +18,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export const GET: APIRoute = async ({ props }) => {
   const { data } = props;
   const fonts = await getOgFonts();
-  const template = getOgTemplate(data.title, data.tags ?? []);
+  const template = getOgTemplate(data.title, data.description, data.tags ?? []);
 
   const svg = await satori(template as any, {
     width: 1200,
