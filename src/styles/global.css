@@ -133,7 +133,7 @@ html.dark {
   }
 
   article {
-    @apply prose prose-neutral max-w-full dark:prose-invert prose-img:mx-auto prose-img:my-auto;
+    @apply prose prose-neutral max-w-full dark:prose-invert prose-img:mx-auto prose-img:my-auto ;
     @apply prose-headings:font-semibold;
     --tw-prose-body: var(--color-gruvbox-fg-muted);
     --tw-prose-headings: var(--color-gruvbox-fg);
@@ -165,6 +165,10 @@ html.dark {
   article a:hover {
     color: var(--color-gruvbox-aqua);
     text-decoration-color: color-mix(in srgb, var(--color-gruvbox-aqua) 60%, transparent);
+  }
+  article blockquote p::before,
+  article blockquote p::after {
+    content: none;
   }
   html.dark article a {
     color: var(--color-gruvbox-dark-blue);
