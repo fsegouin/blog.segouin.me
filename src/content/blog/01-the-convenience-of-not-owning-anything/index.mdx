@@ -8,6 +8,17 @@ tags:
   - journal
 ---
 
+import { Image } from "astro:assets";
+import introImage from "./D937102F-7079-4F84-BE80-C55B92FB7561_1_105_c.jpeg";
+import hp5_1 from "./Japan-HP5-1.jpg";
+
+<Image
+  src={introImage}
+  widths={[480, 640]}
+  sizes="(max-width: 640px) 100vw, 640px"
+  alt="Deer taking a nap in Nara, Japan"
+/>
+
 Lately, I’ve been sitting with a slightly uncomfortable thought: I don’t really own anything anymore.
 
 The movies I watch live on streaming platforms. The music I listen to is tied to a subscription. I take thousands of photos every year, and most of them end up somewhere in the cloud, rarely revisited. Everything is accessible. And yet, very little feels like it’s truly mine.
@@ -43,6 +54,13 @@ Not a carefully tested one, either. An untested Nikon F90x I found for cheap. Th
 I packed five rolls of HP5 Plus and decided that would be enough. A fixed number of exposures. No instant feedback. No second chances.
 
 One evening in Tokyo, I stood for nearly thirty minutes in front of a small shop in a quiet alley. The light was perfect. I could imagine how it might look in black and white. I waited for someone to pass through the frame, to give the scene a bit of movement. I remember hesitating before pressing the shutter, asking myself whether this moment was worth one of the exposures I had left.
+
+<Image
+  src={hp5_1}
+  widths={[480, 640]}
+  sizes="(max-width: 640px) 100vw, 640px"
+  alt="Man walking in front of a store in Shinjuku, Tokyo, Japan"
+/>
 
 That hesitation changed something.
 
