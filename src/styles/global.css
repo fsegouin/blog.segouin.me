@@ -5,83 +5,62 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
-  --font-sans: Geist Sans, ui-sans-serif, system-ui, sans-serif,
-    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  --font-sans: Lora, 'Georgia', 'Times New Roman', serif;
+  --font-serif: 'Playfair Display', 'Georgia', 'Times New Roman', serif;
   --font-mono: Geist Mono, ui-monospace, SFMono-Regular, Menlo, Monaco,
     Consolas, 'Liberation Mono', 'Courier New', monospace;
 
-  /* Gruvbox color palette */
-  --color-gruvbox-bg: #ebdbb2;
-  --color-gruvbox-bg-soft: #f2e5bc;
-  --color-gruvbox-fg: #3c3836;
-  --color-gruvbox-fg-muted: #665c54;
-  --color-gruvbox-gray: #928374;
-  --color-gruvbox-red: #cc241d;
-  --color-gruvbox-green: #98971a;
-  --color-gruvbox-yellow: #d79921;
-  --color-gruvbox-blue: #458588;
-  --color-gruvbox-purple: #b16286;
-  --color-gruvbox-aqua: #689d6a;
-  --color-gruvbox-orange: #d65d0e;
+  /* Newspaper light palette — warm newsprint */
+  --color-paper: #f5f0e8;
+  --color-paper-soft: #ece7dd;
+  --color-ink: #1a1a1a;
+  --color-ink-muted: #555555;
+  --color-ink-faint: #888888;
+  --color-accent: #8b2500;
+  --color-link: #2a5a8a;
+  --color-link-hover: #1a3d5c;
 
-  /* Gruvbox dark palette */
-  --color-gruvbox-dark-bg: #282828;
-  --color-gruvbox-dark-bg-soft: #32302f;
-  --color-gruvbox-dark-fg: #ebdbb2;
-  --color-gruvbox-dark-fg-muted: #a89984;
-  --color-gruvbox-dark-gray: #928374;
-  --color-gruvbox-dark-red: #fb4934;
-  --color-gruvbox-dark-green: #b8bb26;
-  --color-gruvbox-dark-yellow: #fabd2f;
-  --color-gruvbox-dark-blue: #83a598;
-  --color-gruvbox-dark-purple: #d3869b;
-  --color-gruvbox-dark-aqua: #8ec07c;
-  --color-gruvbox-dark-orange: #fe8019;
+  /* Newspaper dark palette — evening edition */
+  --color-paper-dark: #1a1a1a;
+  --color-paper-dark-soft: #242424;
+  --color-ink-dark: #e8e4dc;
+  --color-ink-dark-muted: #a09888;
+  --color-ink-dark-faint: #706860;
+  --color-accent-dark: #d4835a;
+  --color-link-dark: #7db4d8;
+  --color-link-dark-hover: #a8cfe6;
 }
 
 /* Semantic color variables that switch with dark mode */
 :root {
-  --gb-bg: var(--color-gruvbox-bg);
-  --gb-bg-soft: var(--color-gruvbox-bg-soft);
-  --gb-fg: var(--color-gruvbox-fg);
-  --gb-fg-muted: var(--color-gruvbox-fg-muted);
-  --gb-accent: var(--color-gruvbox-orange);
-  --gb-link: var(--color-gruvbox-blue);
-  --gb-link-hover: var(--color-gruvbox-aqua);
+  --bg: var(--color-paper);
+  --bg-soft: var(--color-paper-soft);
+  --fg: var(--color-ink);
+  --fg-muted: var(--color-ink-muted);
+  --fg-faint: var(--color-ink-faint);
+  --accent: var(--color-accent);
+  --link: var(--color-link);
+  --link-hover: var(--color-link-hover);
 }
 
 html.dark {
-  --gb-bg: var(--color-gruvbox-dark-bg);
-  --gb-bg-soft: var(--color-gruvbox-dark-bg-soft);
-  --gb-fg: var(--color-gruvbox-dark-fg);
-  --gb-fg-muted: var(--color-gruvbox-dark-fg-muted);
-  --gb-accent: var(--color-gruvbox-dark-orange);
-  --gb-link: var(--color-gruvbox-dark-blue);
-  --gb-link-hover: var(--color-gruvbox-dark-aqua);
+  --bg: var(--color-paper-dark);
+  --bg-soft: var(--color-paper-dark-soft);
+  --fg: var(--color-ink-dark);
+  --fg-muted: var(--color-ink-dark-muted);
+  --fg-faint: var(--color-ink-dark-faint);
+  --accent: var(--color-accent-dark);
+  --link: var(--color-link-dark);
+  --link-hover: var(--color-link-dark-hover);
 }
 
-/*
-  The default border color has changed to `currentColor` in Tailwind CSS v4,
-  so we've added these compatibility styles to make sure everything still
-  looks the same as it did with Tailwind CSS v3.
-
-  If we ever want to remove these styles, we need to add an explicit border
-  color utility to any element that depends on these defaults.
-*/
 @layer base {
   *,
   ::after,
   ::before,
   ::backdrop,
   ::file-selector-button {
-    border-color: color-mix(in srgb, var(--color-gruvbox-fg) 20%, transparent);
-  }
-  html.dark *,
-  html.dark ::after,
-  html.dark ::before,
-  html.dark ::backdrop,
-  html.dark ::file-selector-button {
-    border-color: color-mix(in srgb, var(--color-gruvbox-dark-fg) 20%, transparent);
+    border-color: color-mix(in srgb, var(--fg) 15%, transparent);
   }
 }
 
@@ -90,7 +69,7 @@ html.dark {
     overflow-y: auto;
     scrollbar-gutter: stable;
     color-scheme: light;
-    scroll-padding-top: 100px;
+    scroll-padding-top: 2rem;
   }
 
   html.dark {
@@ -103,29 +82,18 @@ html.dark {
   }
 
   body {
-    @apply font-sans antialiased;
+    @apply font-sans;
     @apply flex flex-col;
-    background-color: var(--color-gruvbox-bg);
-    color: var(--color-gruvbox-fg-muted);
-  }
-
-  html.dark body {
-    background-color: var(--color-gruvbox-dark-bg);
-    color: var(--color-gruvbox-dark-fg-muted);
+    background-color: var(--bg);
+    color: var(--fg-muted);
   }
 
   header {
-    @apply fixed left-0 right-0 top-0 z-50 py-6;
-    background-color: transparent;
-    @apply backdrop-blur-sm;
-  }
-
-  html.dark header {
-    background-color: transparent;
+    @apply py-6;
   }
 
   main {
-    @apply flex-1 py-32;
+    @apply flex-1 py-8;
   }
 
   footer {
@@ -133,103 +101,112 @@ html.dark {
   }
 
   article {
-    @apply prose prose-neutral max-w-full dark:prose-invert prose-img:mx-auto prose-img:my-auto ;
-    @apply prose-headings:font-semibold;
-    --tw-prose-body: var(--color-gruvbox-fg-muted);
-    --tw-prose-headings: var(--color-gruvbox-fg);
-    --tw-prose-links: var(--color-gruvbox-blue);
-    --tw-prose-bold: var(--color-gruvbox-fg);
-    --tw-prose-code: var(--color-gruvbox-orange);
-    --tw-prose-quotes: var(--color-gruvbox-gray);
-    --tw-prose-quote-borders: var(--color-gruvbox-aqua);
-  }
-
-  html.dark article {
-    --tw-prose-body: var(--color-gruvbox-dark-fg-muted);
-    --tw-prose-headings: var(--color-gruvbox-dark-fg);
-    --tw-prose-links: var(--color-gruvbox-dark-blue);
-    --tw-prose-bold: var(--color-gruvbox-dark-fg);
-    --tw-prose-code: var(--color-gruvbox-dark-orange);
-    --tw-prose-quotes: var(--color-gruvbox-dark-gray);
-    --tw-prose-quote-borders: var(--color-gruvbox-dark-aqua);
+    @apply prose prose-neutral max-w-full dark:prose-invert prose-img:mx-auto prose-img:my-auto;
+    @apply prose-headings:font-serif prose-headings:font-bold;
+    --tw-prose-body: var(--fg-muted);
+    --tw-prose-headings: var(--fg);
+    --tw-prose-links: var(--link);
+    --tw-prose-bold: var(--fg);
+    --tw-prose-code: var(--accent);
+    --tw-prose-quotes: var(--fg-faint);
+    --tw-prose-quote-borders: var(--accent);
   }
 }
 
 @layer utilities {
   article a {
-    @apply font-sans underline underline-offset-[3px];
-    color: var(--color-gruvbox-blue);
-    text-decoration-color: color-mix(in srgb, var(--color-gruvbox-blue) 40%, transparent);
+    @apply underline underline-offset-[3px];
+    color: var(--link);
+    text-decoration-color: color-mix(in srgb, var(--link) 40%, transparent);
     @apply transition-colors duration-300 ease-in-out;
   }
   article a:hover {
-    color: var(--color-gruvbox-aqua);
-    text-decoration-color: color-mix(in srgb, var(--color-gruvbox-aqua) 60%, transparent);
+    color: var(--link-hover);
+    text-decoration-color: color-mix(in srgb, var(--link-hover) 60%, transparent);
   }
   article blockquote p::before,
   article blockquote p::after {
     content: none;
   }
-  html.dark article a {
-    color: var(--color-gruvbox-dark-blue);
-    text-decoration-color: color-mix(in srgb, var(--color-gruvbox-dark-blue) 40%, transparent);
-  }
-  html.dark article a:hover {
-    color: var(--color-gruvbox-dark-aqua);
-    text-decoration-color: color-mix(in srgb, var(--color-gruvbox-dark-aqua) 60%, transparent);
-  }
 }
 
-/* Override Tailwind black/white utilities with Gruvbox equivalents */
+/* Override Tailwind black/white utilities with semantic colors */
 @layer utilities {
   .text-black {
-    color: var(--gb-fg) !important;
+    color: var(--fg) !important;
   }
   .text-white {
-    color: var(--gb-fg) !important;
+    color: var(--fg) !important;
   }
   .bg-neutral-100 {
-    background-color: var(--gb-bg) !important;
+    background-color: var(--bg) !important;
   }
   .bg-neutral-900 {
-    background-color: var(--gb-bg) !important;
+    background-color: var(--bg) !important;
   }
   .hover\:bg-black\/5:hover,
   .focus-visible\:bg-black\/5:focus-visible {
-    background-color: color-mix(in srgb, var(--gb-fg) 8%, transparent) !important;
+    background-color: color-mix(in srgb, var(--fg) 8%, transparent) !important;
   }
   .dark\:hover\:bg-white\/5:is(.dark *):hover,
   .dark\:focus-visible\:bg-white\/5:is(.dark *):focus-visible {
-    background-color: color-mix(in srgb, var(--gb-fg) 8%, transparent) !important;
+    background-color: color-mix(in srgb, var(--fg) 8%, transparent) !important;
   }
   .hover\:text-black:hover,
   .focus-visible\:text-black:focus-visible {
-    color: var(--gb-fg) !important;
+    color: var(--fg) !important;
   }
   .dark\:hover\:text-white:is(.dark *):hover,
   .dark\:focus-visible\:text-white:is(.dark *):focus-visible {
-    color: var(--gb-fg) !important;
+    color: var(--fg) !important;
   }
   .border-black\/15 {
-    border-color: color-mix(in srgb, var(--gb-fg) 15%, transparent) !important;
+    border-color: color-mix(in srgb, var(--fg) 15%, transparent) !important;
   }
   .dark\:border-white\/20:is(.dark *) {
-    border-color: color-mix(in srgb, var(--gb-fg) 20%, transparent) !important;
+    border-color: color-mix(in srgb, var(--fg) 20%, transparent) !important;
   }
   .decoration-black\/30 {
-    text-decoration-color: color-mix(in srgb, var(--gb-fg) 30%, transparent) !important;
+    text-decoration-color: color-mix(in srgb, var(--fg) 30%, transparent) !important;
   }
   .dark\:decoration-white\/30:is(.dark *) {
-    text-decoration-color: color-mix(in srgb, var(--gb-fg) 30%, transparent) !important;
+    text-decoration-color: color-mix(in srgb, var(--fg) 30%, transparent) !important;
   }
   .hover\:decoration-black\/50:hover,
   .focus-visible\:decoration-black\/50:focus-visible {
-    text-decoration-color: color-mix(in srgb, var(--gb-fg) 50%, transparent) !important;
+    text-decoration-color: color-mix(in srgb, var(--fg) 50%, transparent) !important;
   }
   .dark\:hover\:decoration-white\/50:is(.dark *):hover,
   .dark\:focus-visible\:decoration-white\/50:is(.dark *):focus-visible {
-    text-decoration-color: color-mix(in srgb, var(--gb-fg) 50%, transparent) !important;
+    text-decoration-color: color-mix(in srgb, var(--fg) 50%, transparent) !important;
   }
+}
+
+/* Newspaper typography utilities */
+.font-headline {
+  font-family: var(--font-serif);
+}
+
+.section-label {
+  font-family: var(--font-serif);
+  font-variant: small-caps;
+  letter-spacing: 0.05em;
+}
+
+.newspaper-rule {
+  border: none;
+  border-top: 1px solid color-mix(in srgb, var(--fg) 25%, transparent);
+}
+
+article .drop-cap:first-letter {
+  font-family: var(--font-serif);
+  float: left;
+  font-size: 3.5em;
+  line-height: 0.8;
+  padding-right: 0.1em;
+  padding-top: 0.05em;
+  font-weight: 700;
+  color: var(--fg);
 }
 
 .animate {
@@ -249,64 +226,50 @@ html.scrolled #back-to-top {
   @apply pointer-events-auto opacity-100;
 }
 
-/* shiki config - Gruvbox theme */
+/* shiki config — newspaper code theme */
 pre {
   @apply py-5;
-  border: 1px solid var(--color-gruvbox-fg-muted);
-  border-opacity: 0.2;
-}
-
-html.dark pre {
-  border-color: var(--color-gruvbox-dark-fg-muted);
+  border: 1px solid color-mix(in srgb, var(--fg) 15%, transparent);
 }
 
 :root {
-  --astro-code-foreground: var(--color-gruvbox-fg);
-  --astro-code-background: var(--color-gruvbox-bg-soft);
-  --astro-code-token-comment: var(--color-gruvbox-gray);
-  --astro-code-token-keyword: var(--color-gruvbox-red);
-  --astro-code-token-string: var(--color-gruvbox-green);
-  --astro-code-token-function: var(--color-gruvbox-aqua);
-  --astro-code-token-constant: var(--color-gruvbox-purple);
-  --astro-code-token-parameter: var(--color-gruvbox-blue);
-  --astro-code-token-string-expression: var(--color-gruvbox-yellow);
-  --astro-code-token-punctuation: var(--color-gruvbox-fg-muted);
-  --astro-code-token-link: var(--color-gruvbox-blue);
+  --astro-code-foreground: var(--fg);
+  --astro-code-background: var(--bg-soft);
+  --astro-code-token-comment: var(--fg-faint);
+  --astro-code-token-keyword: #8b2500;
+  --astro-code-token-string: #2a6e3f;
+  --astro-code-token-function: #2a5a8a;
+  --astro-code-token-constant: #7a4e8a;
+  --astro-code-token-parameter: #2a5a8a;
+  --astro-code-token-string-expression: #8a6d2a;
+  --astro-code-token-punctuation: var(--fg-muted);
+  --astro-code-token-link: var(--link);
 }
 
 .dark {
-  --astro-code-foreground: var(--color-gruvbox-dark-fg);
-  --astro-code-background: var(--color-gruvbox-dark-bg-soft);
-  --astro-code-token-comment: var(--color-gruvbox-dark-gray);
-  --astro-code-token-keyword: var(--color-gruvbox-dark-red);
-  --astro-code-token-string: var(--color-gruvbox-dark-green);
-  --astro-code-token-function: var(--color-gruvbox-dark-aqua);
-  --astro-code-token-constant: var(--color-gruvbox-dark-purple);
-  --astro-code-token-parameter: var(--color-gruvbox-dark-blue);
-  --astro-code-token-string-expression: var(--color-gruvbox-dark-yellow);
-  --astro-code-token-punctuation: var(--color-gruvbox-dark-fg-muted);
-  --astro-code-token-link: var(--color-gruvbox-dark-blue);
+  --astro-code-foreground: var(--fg);
+  --astro-code-background: var(--bg-soft);
+  --astro-code-token-comment: var(--fg-faint);
+  --astro-code-token-keyword: #d4835a;
+  --astro-code-token-string: #8ec07c;
+  --astro-code-token-function: #7db4d8;
+  --astro-code-token-constant: #c4a0d8;
+  --astro-code-token-parameter: #7db4d8;
+  --astro-code-token-string-expression: #d4b87a;
+  --astro-code-token-punctuation: var(--fg-muted);
+  --astro-code-token-link: var(--link);
 }
 
 /* copy code button on codeblocks */
 .copy-code {
   @apply absolute right-3 top-3 grid size-9 place-content-center rounded-sm text-center duration-300 ease-in-out;
-  border: 1px solid color-mix(in srgb, var(--color-gruvbox-fg) 20%, transparent);
-  background-color: var(--color-gruvbox-bg);
-}
-
-html.dark .copy-code {
-  border-color: color-mix(in srgb, var(--color-gruvbox-dark-fg) 20%, transparent);
-  background-color: var(--color-gruvbox-dark-bg);
+  border: 1px solid color-mix(in srgb, var(--fg) 20%, transparent);
+  background-color: var(--bg);
 }
 
 .copy-code:hover {
   @apply transition-colors;
-  background-color: var(--color-gruvbox-bg-soft);
-}
-
-html.dark .copy-code:hover {
-  background-color: var(--color-gruvbox-dark-bg-soft);
+  background-color: var(--bg-soft);
 }
 
 .copy-code:active {

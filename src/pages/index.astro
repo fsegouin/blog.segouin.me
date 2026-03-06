@@ -23,7 +23,7 @@ const projects: CollectionEntry<"projects">[] = (
 <Layout title={HOME.TITLE} description={HOME.DESCRIPTION}>
   <Container>
     <aside data-pagefind-ignore>
-      <h1 class="font-semibold text-black dark:text-white">
+      <h1 class="font-headline text-2xl font-bold italic text-black dark:text-white">
         Working Draft.
       </h1>
       <div class="space-y-16">
@@ -45,12 +45,12 @@ const projects: CollectionEntry<"projects">[] = (
         {blog.length > 0 && (
           <section class="animate space-y-6">
             <div class="flex flex-wrap items-center justify-between gap-y-2">
-              <h2 class="font-semibold text-black dark:text-white">
-                Latest posts
+              <h2 class="section-label text-lg font-semibold text-black dark:text-white">
+                Latest Posts
               </h2>
               <Link href="/blog"> See all posts </Link>
             </div>
-            <ul class="not-prose flex flex-col gap-4">
+            <ul class="not-prose flex flex-col">
               {
                 blog.map((post) => (
                   <li>
@@ -65,12 +65,12 @@ const projects: CollectionEntry<"projects">[] = (
         {projects.length > 0 && (
           <section class="animate space-y-6">
             <div class="flex flex-wrap items-center justify-between gap-y-2">
-              <h2 class="font-semibold text-black dark:text-white">
-                Recent projects
+              <h2 class="section-label text-lg font-semibold text-black dark:text-white">
+                Recent Projects
               </h2>
               <Link href="/projects"> See all projects </Link>
             </div>
-            <ul class="not-prose flex flex-col gap-4">
+            <ul class="not-prose flex flex-col">
               {
                 projects.map((project) => (
                   <li>
@@ -83,7 +83,7 @@ const projects: CollectionEntry<"projects">[] = (
         )}
 
         <section class="animate space-y-4">
-          <h2 class="font-semibold text-black dark:text-white">
+          <h2 class="section-label text-lg font-semibold text-black dark:text-white">
             Let's Connect
           </h2>
           <article>
