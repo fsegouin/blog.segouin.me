@@ -90,9 +90,13 @@ const { title, description, image = "/astro-micro.jpg" } = Astro.props;
 
   function scrollToTop(event) {
     event.preventDefault();
+    // A full-viewport smooth scroll is interaction-triggered motion, and
+    // being JS-driven no CSS media query reaches it.
     window.scrollTo({
       top: 0,
-      behavior: "smooth",
+      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
+        ? "auto"
+        : "smooth",
     });
   }
 

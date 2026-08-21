@@ -323,3 +323,43 @@ pre span[style*="--astro-code-token-keyword"] {
 .copy-code:active {
   @apply scale-90 transition-transform;
 }
+
+/* ------------------------------------------------------------------ *
+ * View transitions
+ *
+ * The ClientRouter cross-fades the whole page on navigation, which runs
+ * at the same time as the .animate reveal above and animates the same
+ * content twice. Chrome blends the two; Safari plays them as separate
+ * passes and it reads as a stutter. Suppress the cross-fade so the
+ * staggered reveal is the only motion, exactly as on a cold load.
+ *
+ * Astro already disables these animations under `prefers-reduced-motion`,
+ * so this only changes what readers see when they have not asked for
+ * reduced motion.
+ * ------------------------------------------------------------------ */
+::view-transition-group(root),
+::view-transition-image-pair(root),
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+}
+
+/* Both declarations below are load-bearing; neither is tidy-up material.
+ *
+ * The UA stylesheet blends the two snapshots with `plus-lighter`, which
+ * only resolves correctly while their opacities are mid-cross-fade. With
+ * the animation suppressed they sit at full opacity in the same frame and
+ * composite additively into a white flash.
+ *
+ * And the outgoing snapshot spans the full scroll height, so without
+ * `opacity: 0` a taller previous page shows below a shorter new one.
+ *
+ * Astro's own `transition:animate="none"` sets both, for both reasons. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  mix-blend-mode: normal;
+}
+
+::view-transition-old(root) {
+  opacity: 0;
+}
