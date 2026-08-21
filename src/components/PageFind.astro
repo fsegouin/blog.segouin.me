@@ -47,8 +47,15 @@ import Search from "astro-pagefind/components/Search";
   }
 
   function closePagefind() {
-    const search = document.getElementById("search");
-    search.value = "";
+    // `#search` is Pagefind's container div, not its input, so assigning
+    // `.value` to it only ever set a meaningless expando. The event is what
+    // makes Pagefind drop the stale result list; clearing the field alone
+    // empties the box and leaves the old results under it.
+    const input = document.getElementById("search")?.querySelector("input");
+    if (input) {
+      input.value = "";
+      input.dispatchEvent(new Event("input", { bubbles: true }));
+    }
     backdrop?.classList.remove("visible");
     backdrop?.classList.add("invisible");
   }
@@ -83,7 +90,9 @@ import Search from "astro-pagefind/components/Search";
   });
 
   document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") {
+    // Only when open: otherwise every Escape press anywhere on the site
+    // reaches in and clears the search field.
+    if (e.key === "Escape" && backdrop?.classList.contains("visible")) {
       closePagefind();
     }
   });
