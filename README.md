@@ -1,6 +1,6 @@
 # blog.segouin.me 🧙
 
-Personal blog and portfolio.
+Personal blog.
 
 **Live site:** https://blog.segouin.me
 
@@ -10,14 +10,14 @@ Personal blog and portfolio.
 - [TailwindCSS](https://tailwindcss.com/) - Styling
 - [MDX](https://mdxjs.com/) - Interactive markdown
 - [Pagefind](https://pagefind.app/) - Client-side search
-- [Giscus](https://giscus.app/) - GitHub-based comments
+- [Satori](https://github.com/vercel/satori) - Build-time Open Graph images
 
 ## Development
 
 ```bash
-npm run dev      # Start development server
-npm run build    # Build for production
-npm run preview  # Preview production build
+pnpm dev      # Start development server
+pnpm build    # Type check + build for production
+pnpm preview  # Preview production build
 ```
 
 ## Credits

@@ -4,24 +4,11 @@ export const SITE: Site = {
   TITLE: "blog.segouin.me",
   DESCRIPTION: "Yet another blog.",
   EMAIL: "florent@segouin.me",
-  NUM_POSTS_ON_HOMEPAGE: 5,
-  NUM_PROJECTS_ON_HOMEPAGE: 3,
 };
 
 export const HOME: Metadata = {
   TITLE: "Home",
-  DESCRIPTION: "Yet another blog.",
-};
-
-export const BLOG: Metadata = {
-  TITLE: "Blog",
-  DESCRIPTION: "A collection of articles that might be of interest (or not).",
-};
-
-export const PROJECTS: Metadata = {
-  TITLE: "Projects",
-  DESCRIPTION:
-    "A collection of my projects." 
+  DESCRIPTION: SITE.DESCRIPTION,
 };
 
 export const SOCIALS: Socials = [

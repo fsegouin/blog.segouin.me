@@ -7,7 +7,7 @@ import { getOgTemplate } from "@lib/og-template";
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const posts = (await getCollection("blog")).filter(
-    (post) => !post.data.draft
+    (post) => !post.data.draft,
   );
   return posts.map((post) => ({
     params: { slug: post.data.slug },
@@ -20,7 +20,7 @@ export const GET: APIRoute = async ({ props }) => {
   const fonts = await getOgFonts();
   const template = getOgTemplate(data.title, data.description, data.tags ?? []);
 
-  const svg = await satori(template as any, {
+  const svg = await satori(template as Parameters<typeof satori>[0], {
     width: 1200,
     height: 630,
     fonts,

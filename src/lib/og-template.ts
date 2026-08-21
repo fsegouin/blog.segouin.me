@@ -1,14 +1,19 @@
-// Gruvbox dark palette (matches src/styles/global.css)
+// Mirrors the tokens in src/styles/global.css. Kept as literals because
+// Satori renders outside the browser and can't read CSS variables.
 const colors = {
-  bg: "#282828",
-  bgSoft: "#32302f",
-  fg: "#ebdbb2",
-  fgMuted: "#a89984",
-  gray: "#928374",
-  orange: "#fe8019",
+  bg: "#ffffff",
+  bgSoft: "#f4f4f4",
+  fg: "#1a1a1a",
+  fgMuted: "#4a4a4a",
+  gray: "#6b6b6b",
+  rule: "#e4e4e4",
 };
 
-export function getOgTemplate(title: string, description: string, tags: string[] = []) {
+export function getOgTemplate(
+  title: string,
+  description: string,
+  tags: string[] = [],
+) {
   return {
     type: "div",
     props: {
@@ -22,7 +27,6 @@ export function getOgTemplate(title: string, description: string, tags: string[]
         padding: "60px",
       },
       children: [
-        // Top: site name
         {
           type: "div",
           props: {
@@ -35,7 +39,6 @@ export function getOgTemplate(title: string, description: string, tags: string[]
             children: "blog.segouin.me",
           },
         },
-        // Center: title + description
         {
           type: "div",
           props: {
@@ -50,8 +53,8 @@ export function getOgTemplate(title: string, description: string, tags: string[]
                 props: {
                   style: {
                     display: "flex",
-                    fontFamily: "Geist Sans",
-                    fontWeight: 700,
+                    fontFamily: "Lora",
+                    fontWeight: 600,
                     fontSize: "56px",
                     color: colors.fg,
                     lineHeight: 1.2,
@@ -76,7 +79,6 @@ export function getOgTemplate(title: string, description: string, tags: string[]
             ],
           },
         },
-        // Bottom: tags + author
         {
           type: "div",
           props: {
@@ -87,7 +89,6 @@ export function getOgTemplate(title: string, description: string, tags: string[]
               width: "100%",
             },
             children: [
-              // Tags
               {
                 type: "div",
                 props: {
@@ -103,7 +104,8 @@ export function getOgTemplate(title: string, description: string, tags: string[]
                         fontFamily: "Geist Sans",
                         fontSize: "18px",
                         color: colors.fgMuted,
-                        border: `1px solid ${colors.gray}`,
+                        backgroundColor: colors.bgSoft,
+                        border: `1px solid ${colors.rule}`,
                         borderRadius: "6px",
                         padding: "6px 16px",
                       },
@@ -112,7 +114,6 @@ export function getOgTemplate(title: string, description: string, tags: string[]
                   })),
                 },
               },
-              // Author
               {
                 type: "div",
                 props: {

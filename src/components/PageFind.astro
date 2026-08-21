@@ -2,15 +2,18 @@
 import Search from "astro-pagefind/components/Search";
 ---
 
-<aside data-pagefind-ignore>
+<div data-pagefind-ignore>
   <div
     transition:persist
     id="backdrop"
-    class="bg-[rgba(0, 0, 0, 0.5] invisible fixed left-0 top-0 z-50 flex h-screen w-full justify-center p-6 backdrop-blur-xs"
+    class="invisible fixed top-0 left-0 z-50 flex h-screen w-full justify-center bg-black/40 p-6 backdrop-blur-xs"
   >
     <div
       id="pagefind-container"
-      class="m-0 flex h-fit max-h-[80%] w-full max-w-(--breakpoint-sm) flex-col overflow-auto rounded-sm border border-black/15 bg-neutral-100 p-2 px-4 py-3 shadow-lg dark:border-white/20 dark:bg-neutral-900"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Search this site"
+      class="border-rule bg-paper m-0 flex h-fit max-h-[80%] w-full max-w-(--measure) flex-col overflow-auto rounded-sm border p-2 px-4 py-3 shadow-lg"
     >
       <Search
         id="search"
@@ -21,14 +24,12 @@ import Search from "astro-pagefind/components/Search";
           resetStyles: false,
         }}
       />
-      <div class="mr-2 pb-1 pt-4 text-right text-xs dark:prose-invert">
-        Press <span class="prose text-xs dark:prose-invert"
-          ><kbd class="">Esc</kbd></span
-        > or click anywhere to close
+      <div class="text-ink-faint mr-2 pt-4 pb-1 text-right font-sans text-xs">
+        Press <kbd class="font-mono">Esc</kbd> or click anywhere to close
       </div>
     </div>
   </div>
-</aside>
+</div>
 
 <script is:inline>
   const magnifyingGlass = document.getElementById("magnifying-glass");
@@ -51,7 +52,6 @@ import Search from "astro-pagefind/components/Search";
     backdrop?.classList.add("invisible");
   }
 
-  // open pagefind
   magnifyingGlass?.addEventListener("click", () => {
     openPagefind();
   });
@@ -66,14 +66,12 @@ import Search from "astro-pagefind/components/Search";
     }
   });
 
-  // close pagefind
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape") {
       closePagefind();
     }
   });
 
-  // close pagefind when searched result(link) clicked
   document.addEventListener("click", (event) => {
     if (event.target.classList.contains("pagefind-ui__result-link")) {
       closePagefind();
@@ -85,33 +83,21 @@ import Search from "astro-pagefind/components/Search";
       closePagefind();
     }
   });
-
-  // prevent form submission
-  const form = document.getElementById("form");
-  form?.addEventListener("submit", (event) => {
-    event.preventDefault();
-  });
 </script>
 
 <style is:global>
+  /* Pagefind draws its own UI, so point its variables at the site tokens
+     rather than letting it ship a palette of its own. */
   :root {
     --pagefind-ui-scale: 0.75;
     --pagefind-ui-border-width: 1px;
     --pagefind-ui-border-radius: 3px;
-    --pagefind-ui-font: "Geist", sans-serif;
-    --pagefind-ui-primary: #3c3836;
-    --pagefind-ui-text: #3c3836;
-    --pagefind-ui-background: #fbf1c7;
-    --pagefind-ui-border: #928374;
-    --pagefind-ui-tag: #f2e5bc;
-  }
-
-  .dark {
-    --pagefind-ui-primary: #ebdbb2;
-    --pagefind-ui-text: #ebdbb2;
-    --pagefind-ui-background: #282828;
-    --pagefind-ui-border: #928374;
-    --pagefind-ui-tag: #32302f;
+    --pagefind-ui-font: "Geist Sans", ui-sans-serif, system-ui, sans-serif;
+    --pagefind-ui-primary: var(--ink);
+    --pagefind-ui-text: var(--ink-muted);
+    --pagefind-ui-background: var(--paper);
+    --pagefind-ui-border: var(--rule);
+    --pagefind-ui-tag: var(--paper-raised);
   }
 
   #search input {

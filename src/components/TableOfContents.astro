@@ -2,8 +2,6 @@
 import TableOfContentsHeading from "./TableOfContentsHeading.astro";
 
 // https://kld.dev/building-table-of-contents/
-const { headings } = Astro.props;
-const toc = buildToc(headings);
 
 export interface Heading {
   depth: number;
@@ -11,31 +9,42 @@ export interface Heading {
   text: string;
 }
 
+export interface TocHeading extends Heading {
+  subheadings: TocHeading[];
+}
+
+type Props = {
+  headings: Heading[];
+};
+
 function buildToc(headings: Heading[]) {
-  const toc: Heading[] = [];
-  const parentHeadings = new Map();
+  const toc: TocHeading[] = [];
+  const parentHeadings = new Map<number, TocHeading>();
   headings.forEach((h) => {
-    const heading = { ...h, subheadings: [] };
+    const heading: TocHeading = { ...h, subheadings: [] };
     parentHeadings.set(heading.depth, heading);
-    if (heading.depth === 2) {
+    // A post whose headings skip a level has no parent to nest under;
+    // promoting it keeps the build alive instead of throwing.
+    const parent = parentHeadings.get(heading.depth - 1);
+    if (heading.depth === 2 || !parent) {
       toc.push(heading);
     } else {
-      parentHeadings.get(heading.depth - 1).subheadings.push(heading);
+      parent.subheadings.push(heading);
     }
   });
   return toc;
 }
+
+const { headings } = Astro.props;
+const toc = buildToc(headings);
 ---
 
-<details
-  open
-  class="animate group rounded-lg border border-black/15 dark:border-white/20"
->
+<details open class="animate group not-prose border-rule rounded-sm border">
   <summary
-    class="cursor-pointer rounded-t-lg px-3 py-1.5 font-medium transition-colors group-open:bg-black/5 hover:bg-black/5 dark:group-open:bg-white/5 hover:dark:bg-white/5"
+    class="text-ink-muted group-open:border-rule hover:text-ink cursor-pointer rounded-t-sm px-4 py-2 font-sans text-sm font-medium transition-colors duration-200 ease-out group-open:border-b"
     >Table of Contents</summary
   >
-  <nav>
+  <nav aria-label="Table of contents">
     <ul class="py-3">
       {toc.map((heading) => <TableOfContentsHeading heading={heading} />)}
     </ul>

@@ -1,5 +1,5 @@
 ---
-import { type CollectionEntry, getCollection, render } from "astro:content";
+import { type CollectionEntry, render } from "astro:content";
 import Layout from "@layouts/Layout.astro";
 import Container from "@components/Container.astro";
 import FormattedDate from "@components/FormattedDate.astro";
@@ -7,12 +7,10 @@ import { readingTime } from "@lib/utils";
 import BackToPrevious from "@components/BackToPrevious.astro";
 import PostNavigation from "@components/PostNavigation.astro";
 import TableOfContents from "@components/TableOfContents.astro";
-import Giscus from "@components/Giscus.astro";
+import { getPublishedPosts } from "@lib/posts";
 
 export async function getStaticPaths() {
-  const posts = (await getCollection("blog"))
-    .filter((post) => !post.data.draft)
-    .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+  const posts = await getPublishedPosts();
   return posts.map((post) => ({
     params: { slug: post.data.slug },
     props: post,
@@ -20,78 +18,67 @@ export async function getStaticPaths() {
 }
 type Props = CollectionEntry<"blog">;
 
-const posts = (await getCollection("blog"))
-  .filter((post) => !post.data.draft)
-  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
-
-function getNextPost() {
-  let postIndex;
-  for (const post of posts) {
-    if (post.data.slug === Astro.params.slug) {
-      postIndex = posts.indexOf(post);
-      return posts[postIndex + 1];
-    }
-  }
-}
-
-function getPrevPost() {
-  let postIndex;
-  for (const post of posts) {
-    if (post.data.slug === Astro.params.slug) {
-      postIndex = posts.indexOf(post);
-      return posts[postIndex - 1];
-    }
-  }
-}
-
-const nextPost = getNextPost();
-const prevPost = getPrevPost();
-
 const post = Astro.props;
+
+// `posts` is newest-first, so the entry after this one is the older post.
+const posts = await getPublishedPosts();
+const postIndex = posts.findIndex((p) => p.data.slug === post.data.slug);
+const nextPost = postIndex === -1 ? undefined : posts[postIndex + 1];
+const prevPost = postIndex === -1 ? undefined : posts[postIndex - 1];
 const { Content, headings } = await render(post);
 ---
 
-<Layout title={post.data.title} description={post.data.description} image={`/og/${post.data.slug}.png`}>
+<Layout
+  title={post.data.title}
+  description={post.data.description}
+  image={`/og/${post.data.slug}.png`}
+>
   <Container>
     <div class="animate">
-      <BackToPrevious href="/blog">Back to blog</BackToPrevious>
+      <BackToPrevious href="/">All posts</BackToPrevious>
     </div>
-    <div class="my-10 space-y-2">
-      <h1 class="animate font-headline text-4xl font-bold leading-tight text-black sm:text-5xl dark:text-white">
+    <header class="mt-10 mb-12">
+      <h1
+        class="animate text-ink font-serif text-[2.125rem] leading-[1.15] font-semibold tracking-[-0.015em] text-balance sm:text-[2.625rem]"
+      >
         {post.data.title}
       </h1>
-      <div class="animate flex items-center gap-1.5 text-sm italic opacity-60">
+      <div
+        class="animate text-ink-faint mt-4 flex flex-wrap items-center gap-x-2 gap-y-1 font-sans text-sm"
+      >
         <FormattedDate date={post.data.date} />
-        {post.body && (
-          <>
-            &mdash;
-            <span>{readingTime(post.body)}</span>
-          </>
-        )}
-      </div>
-      {
-        post.data.tags && post.data.tags?.length > 0 ? (
-          <div class="animate flex gap-2 pt-1">
-            {post.data.tags.map((tag) => (
+        {
+          post.body && (
+            <>
+              <span aria-hidden="true">·</span>
+              <span>{readingTime(post.body)}</span>
+            </>
+          )
+        }
+        {
+          post.data.tags?.map((tag) => (
+            <>
+              <span aria-hidden="true">·</span>
               <a
                 href={`/tags/${tag}`}
-                class="text-sm italic opacity-60 underline underline-offset-2 transition-colors duration-300 ease-in-out hover:text-black hover:opacity-100 focus-visible:text-black dark:hover:text-white dark:focus-visible:text-white"
+                class="decoration-underline hover:text-ink hover:decoration-ink focus-visible:text-ink underline underline-offset-[3px] transition-colors duration-200 ease-out"
               >
                 {tag}
               </a>
-            ))}
-          </div>
-        ) : null
-      }
-    </div>
-    {post.data.toc !== false && headings.length > 0 && <TableOfContents headings={headings} />}
+            </>
+          ))
+        }
+      </div>
+    </header>
+    {
+      post.data.toc !== false && headings.length > 0 && (
+        <TableOfContents headings={headings} />
+      )
+    }
     <article class="animate">
       <Content />
       <div class="mt-24">
         <PostNavigation prevPost={prevPost} nextPost={nextPost} />
-      </div>
-      <div class="mt-24">
-        <Giscus />
       </div>
     </article>
   </Container>

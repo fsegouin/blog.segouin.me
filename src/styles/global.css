@@ -1,57 +1,61 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
 @plugin '@tailwindcss/typography';
 
-@custom-variant dark (&:is(.dark *));
+/* ------------------------------------------------------------------ *
+ * Palette — black on white, and nothing else
+ *
+ * There is no hue anywhere on this site, and no dark mode. Every value
+ * below is a neutral grey, so hierarchy is carried entirely by weight,
+ * size and space. Links are ink plus an underline that darkens on hover
+ * rather than a second colour competing with the text.
+ *
+ * Contrast against --paper: ink 17.4:1, muted 8.9:1, faint 5.3:1 — all
+ * clear WCAG AA, including the small sans metadata that uses faint.
+ * ------------------------------------------------------------------ */
+:root {
+  --paper: #ffffff;
+  --paper-raised: #f4f4f4;
+  --ink: #1a1a1a;
+  --ink-muted: #4a4a4a;
+  --ink-faint: #6b6b6b;
+  --rule: #e4e4e4;
+  /* Resting state of a link underline. Since links carry no colour of
+     their own, this underline is the only thing marking them — so it has
+     to clear 3:1 against the page rather than merely hint. */
+  --underline: #949494;
+}
+
+/* ------------------------------------------------------------------ *
+ * Design tokens
+ *
+ * `@theme inline` emits utilities that reference the custom properties
+ * directly (`color: var(--ink)`), so `text-ink` / `bg-paper` /
+ * `border-rule` stay in step with the values above.
+ * ------------------------------------------------------------------ */
+@theme inline {
+  --color-paper: var(--paper);
+  --color-paper-raised: var(--paper-raised);
+  --color-ink: var(--ink);
+  --color-ink-muted: var(--ink-muted);
+  --color-ink-faint: var(--ink-faint);
+  --color-rule: var(--rule);
+  --color-underline: var(--underline);
+}
 
 @theme {
-  --font-sans: Lora, 'Georgia', 'Times New Roman', serif;
-  --font-serif: 'Playfair Display', 'Georgia', 'Times New Roman', serif;
-  --font-mono: Geist Mono, ui-monospace, SFMono-Regular, Menlo, Monaco,
-    Consolas, 'Liberation Mono', 'Courier New', monospace;
+  --font-sans:
+    "Geist Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+    sans-serif;
+  --font-serif: Lora, Georgia, "Times New Roman", serif;
+  --font-mono:
+    "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
 
-  /* Newspaper light palette — warm newsprint */
-  --color-paper: #f5f0e8;
-  --color-paper-soft: #ece7dd;
-  --color-ink: #1a1a1a;
-  --color-ink-muted: #555555;
-  --color-ink-faint: #888888;
-  --color-accent: #8b2500;
-  --color-link: #2a5a8a;
-  --color-link-hover: #1a3d5c;
-
-  /* Newspaper dark palette — evening edition */
-  --color-paper-dark: #1a1a1a;
-  --color-paper-dark-soft: #242424;
-  --color-ink-dark: #e8e4dc;
-  --color-ink-dark-muted: #a09888;
-  --color-ink-dark-faint: #706860;
-  --color-accent-dark: #d4835a;
-  --color-link-dark: #7db4d8;
-  --color-link-dark-hover: #a8cfe6;
-}
-
-/* Semantic color variables that switch with dark mode */
-:root {
-  --bg: var(--color-paper);
-  --bg-soft: var(--color-paper-soft);
-  --fg: var(--color-ink);
-  --fg-muted: var(--color-ink-muted);
-  --fg-faint: var(--color-ink-faint);
-  --accent: var(--color-accent);
-  --link: var(--color-link);
-  --link-hover: var(--color-link-hover);
-}
-
-html.dark {
-  --bg: var(--color-paper-dark);
-  --bg-soft: var(--color-paper-dark-soft);
-  --fg: var(--color-ink-dark);
-  --fg-muted: var(--color-ink-dark-muted);
-  --fg-faint: var(--color-ink-dark-faint);
-  --accent: var(--color-accent-dark);
-  --link: var(--color-link-dark);
-  --link-hover: var(--color-link-dark-hover);
+  /* Reading measure. ~74 characters per line at the desktop prose size
+     below — wide enough not to feel cramped, still short enough that the
+     eye finds the start of the next line without hunting. */
+  --measure: 48rem;
 }
 
 @layer base {
@@ -60,7 +64,7 @@ html.dark {
   ::before,
   ::backdrop,
   ::file-selector-button {
-    border-color: color-mix(in srgb, var(--fg) 15%, transparent);
+    border-color: var(--rule);
   }
 }
 
@@ -69,11 +73,7 @@ html.dark {
     overflow-y: auto;
     scrollbar-gutter: stable;
     color-scheme: light;
-    scroll-padding-top: 2rem;
-  }
-
-  html.dark {
-    color-scheme: dark;
+    scroll-padding-top: 4rem;
   }
 
   html,
@@ -82,194 +82,242 @@ html.dark {
   }
 
   body {
-    @apply font-sans;
-    @apply flex flex-col;
-    background-color: var(--bg);
-    color: var(--fg-muted);
+    @apply flex flex-col font-sans;
+    background-color: var(--paper);
+    color: var(--ink-muted);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
   }
 
   header {
-    @apply py-6;
+    @apply py-5;
   }
 
   main {
-    @apply flex-1 py-8;
+    @apply flex-1 py-10;
   }
 
   footer {
-    @apply py-6 text-sm;
+    @apply py-10 text-sm;
   }
 
+  /* ---------------------------------------------------------------- *
+   * Prose
+   *
+   * The writing is the point, so it gets the strongest ink on the page
+   * (`--ink`) — metadata and chrome are what recede.
+   * ---------------------------------------------------------------- */
   article {
-    @apply prose prose-neutral max-w-full dark:prose-invert prose-img:mx-auto prose-img:my-auto;
-    @apply prose-headings:font-serif prose-headings:font-bold;
-    --tw-prose-body: var(--fg-muted);
-    --tw-prose-headings: var(--fg);
-    --tw-prose-links: var(--link);
-    --tw-prose-bold: var(--fg);
-    --tw-prose-code: var(--accent);
-    --tw-prose-quotes: var(--fg-faint);
-    --tw-prose-quote-borders: var(--accent);
-  }
-}
+    @apply prose max-w-full;
+    font-family: var(--font-serif);
+    /* 17px on a phone, 19px once there's room. Holding 19px at mobile
+       widths would drop the line to ~38 characters, which is short
+       enough to start breaking the rhythm of reading. */
+    font-size: 1.0625rem;
+    line-height: 1.7;
 
-@layer utilities {
-  article a {
-    @apply underline underline-offset-[3px];
-    color: var(--link);
-    text-decoration-color: color-mix(in srgb, var(--link) 40%, transparent);
-    @apply transition-colors duration-300 ease-in-out;
+    --tw-prose-body: var(--ink);
+    --tw-prose-headings: var(--ink);
+    --tw-prose-lead: var(--ink-muted);
+    --tw-prose-links: var(--ink);
+    --tw-prose-bold: var(--ink);
+    --tw-prose-counters: var(--ink-faint);
+    --tw-prose-bullets: var(--ink-faint);
+    --tw-prose-hr: var(--rule);
+    --tw-prose-quotes: var(--ink-muted);
+    --tw-prose-quote-borders: var(--ink-faint);
+    --tw-prose-captions: var(--ink-faint);
+    --tw-prose-code: var(--ink);
+    --tw-prose-pre-code: var(--ink);
+    --tw-prose-pre-bg: var(--paper-raised);
+    --tw-prose-th-borders: var(--rule);
+    --tw-prose-td-borders: var(--rule);
   }
-  article a:hover {
-    color: var(--link-hover);
-    text-decoration-color: color-mix(in srgb, var(--link-hover) 60%, transparent);
+
+  @media (width >= 40rem) {
+    article {
+      font-size: 1.1875rem;
+      line-height: 1.72;
+    }
   }
+
+  article :is(h2, h3, h4) {
+    font-family: var(--font-serif);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  article h2 {
+    @apply mt-14 mb-4 text-[1.5em];
+  }
+
+  article h3 {
+    @apply mt-10 mb-3 text-[1.2em];
+  }
+
+  article p {
+    @apply my-[1.15em];
+  }
+
+  article :is(img, video) {
+    @apply mx-auto my-10 rounded-sm;
+  }
+
+  article figcaption {
+    @apply text-center font-sans text-sm;
+  }
+
+  article blockquote {
+    @apply not-italic;
+    border-inline-start-width: 2px;
+  }
+
   article blockquote p::before,
   article blockquote p::after {
     content: none;
   }
+
+  article :not(pre) > code {
+    @apply rounded-sm px-1 py-0.5 font-mono text-[0.85em] font-normal;
+    background-color: var(--paper-raised);
+  }
+
+  article :not(pre) > code::before,
+  article :not(pre) > code::after {
+    content: none;
+  }
 }
 
-/* Override Tailwind black/white utilities with semantic colors */
+/* ------------------------------------------------------------------ *
+ * Links
+ *
+ * With no accent colour to spend, a link is ink plus an underline. The
+ * underline sits back at rest and goes to full ink on hover, so a
+ * paragraph reads as continuous text instead of a row of coloured
+ * interruptions.
+ * ------------------------------------------------------------------ */
 @layer utilities {
-  .text-black {
-    color: var(--fg) !important;
+  article a {
+    @apply underline decoration-1 underline-offset-[3px] transition-colors duration-200 ease-out;
+    color: var(--ink);
+    text-decoration-color: var(--underline);
   }
-  .text-white {
-    color: var(--fg) !important;
+
+  article a:hover,
+  article a:focus-visible {
+    text-decoration-color: var(--ink);
   }
-  .bg-neutral-100 {
-    background-color: var(--bg) !important;
-  }
-  .bg-neutral-900 {
-    background-color: var(--bg) !important;
-  }
-  .hover\:bg-black\/5:hover,
-  .focus-visible\:bg-black\/5:focus-visible {
-    background-color: color-mix(in srgb, var(--fg) 8%, transparent) !important;
-  }
-  .dark\:hover\:bg-white\/5:is(.dark *):hover,
-  .dark\:focus-visible\:bg-white\/5:is(.dark *):focus-visible {
-    background-color: color-mix(in srgb, var(--fg) 8%, transparent) !important;
-  }
-  .hover\:text-black:hover,
-  .focus-visible\:text-black:focus-visible {
-    color: var(--fg) !important;
-  }
-  .dark\:hover\:text-white:is(.dark *):hover,
-  .dark\:focus-visible\:text-white:is(.dark *):focus-visible {
-    color: var(--fg) !important;
-  }
-  .border-black\/15 {
-    border-color: color-mix(in srgb, var(--fg) 15%, transparent) !important;
-  }
-  .dark\:border-white\/20:is(.dark *) {
-    border-color: color-mix(in srgb, var(--fg) 20%, transparent) !important;
-  }
-  .decoration-black\/30 {
-    text-decoration-color: color-mix(in srgb, var(--fg) 30%, transparent) !important;
-  }
-  .dark\:decoration-white\/30:is(.dark *) {
-    text-decoration-color: color-mix(in srgb, var(--fg) 30%, transparent) !important;
-  }
-  .hover\:decoration-black\/50:hover,
-  .focus-visible\:decoration-black\/50:focus-visible {
-    text-decoration-color: color-mix(in srgb, var(--fg) 50%, transparent) !important;
-  }
-  .dark\:hover\:decoration-white\/50:is(.dark *):hover,
-  .dark\:focus-visible\:decoration-white\/50:is(.dark *):focus-visible {
-    text-decoration-color: color-mix(in srgb, var(--fg) 50%, transparent) !important;
+
+  article :is(h1, h2, h3, h4) a {
+    @apply no-underline;
   }
 }
 
-/* Newspaper typography utilities */
-.font-headline {
-  font-family: var(--font-serif);
+/* ------------------------------------------------------------------ *
+ * Chrome
+ * ------------------------------------------------------------------ */
+@layer utilities {
+  .label {
+    @apply font-sans text-xs font-medium tracking-[0.12em] uppercase;
+    color: var(--ink-faint);
+  }
+
+  .meta {
+    @apply font-sans text-sm;
+    color: var(--ink-faint);
+  }
+
+  .btn-quiet {
+    @apply border-rule rounded-sm border font-sans text-sm transition-colors duration-200 ease-out;
+    color: var(--ink-muted);
+  }
+
+  .btn-quiet:hover,
+  .btn-quiet:focus-visible {
+    background-color: var(--paper-raised);
+    color: var(--ink);
+  }
+
+  .animate {
+    @apply -translate-y-2 opacity-0 transition-all duration-500 ease-out;
+  }
+
+  .animate.show {
+    @apply translate-y-0 opacity-100;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .animate {
+      @apply translate-y-0 opacity-100 transition-none;
+    }
+  }
+
+  /* `opacity: 0` alone leaves the button in the tab order, so at the top of
+     the page a keyboard user lands on an invisible control. `visibility`
+     removes it from both the tab order and the accessibility tree. */
+  html #back-to-top {
+    @apply pointer-events-none invisible opacity-0;
+  }
+
+  html.scrolled #back-to-top {
+    @apply pointer-events-auto visible opacity-100;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--ink);
+    outline-offset: 2px;
+  }
+
+  ::selection {
+    background-color: #dcdcdc;
+    color: var(--ink);
+  }
 }
 
-.section-label {
-  font-family: var(--font-serif);
-  font-variant: small-caps;
-  letter-spacing: 0.05em;
-}
-
-.newspaper-rule {
-  border: none;
-  border-top: 1px solid color-mix(in srgb, var(--fg) 25%, transparent);
-}
-
-article .drop-cap:first-letter {
-  font-family: var(--font-serif);
-  float: left;
-  font-size: 3.5em;
-  line-height: 0.8;
-  padding-right: 0.1em;
-  padding-top: 0.05em;
-  font-weight: 700;
-  color: var(--fg);
-}
-
-.animate {
-  @apply -translate-y-3 opacity-0;
-  @apply transition-all duration-300 ease-out;
-}
-
-.animate.show {
-  @apply translate-y-0 opacity-100;
-}
-
-html #back-to-top {
-  @apply pointer-events-none opacity-0;
-}
-
-html.scrolled #back-to-top {
-  @apply pointer-events-auto opacity-100;
-}
-
-/* shiki config — newspaper code theme */
+/* ------------------------------------------------------------------ *
+ * Code blocks
+ *
+ * Monochrome, like everything else: tokens separate by value rather
+ * than hue, with italics and weight doing the work colour normally
+ * would.
+ * ------------------------------------------------------------------ */
 pre {
-  @apply py-5;
-  border: 1px solid color-mix(in srgb, var(--fg) 15%, transparent);
+  @apply rounded-sm py-4 font-mono text-[0.9rem];
+  border: 1px solid var(--rule);
 }
 
 :root {
-  --astro-code-foreground: var(--fg);
-  --astro-code-background: var(--bg-soft);
-  --astro-code-token-comment: var(--fg-faint);
-  --astro-code-token-keyword: #8b2500;
-  --astro-code-token-string: #2a6e3f;
-  --astro-code-token-function: #2a5a8a;
-  --astro-code-token-constant: #7a4e8a;
-  --astro-code-token-parameter: #2a5a8a;
-  --astro-code-token-string-expression: #8a6d2a;
-  --astro-code-token-punctuation: var(--fg-muted);
-  --astro-code-token-link: var(--link);
+  --astro-code-foreground: var(--ink);
+  --astro-code-background: var(--paper-raised);
+  --astro-code-token-comment: var(--ink-faint);
+  --astro-code-token-keyword: var(--ink);
+  --astro-code-token-string: var(--ink-muted);
+  --astro-code-token-function: var(--ink);
+  --astro-code-token-constant: var(--ink-muted);
+  --astro-code-token-parameter: var(--ink-muted);
+  --astro-code-token-string-expression: var(--ink-muted);
+  --astro-code-token-punctuation: var(--ink-faint);
+  --astro-code-token-link: var(--ink);
 }
 
-.dark {
-  --astro-code-foreground: var(--fg);
-  --astro-code-background: var(--bg-soft);
-  --astro-code-token-comment: var(--fg-faint);
-  --astro-code-token-keyword: #d4835a;
-  --astro-code-token-string: #8ec07c;
-  --astro-code-token-function: #7db4d8;
-  --astro-code-token-constant: #c4a0d8;
-  --astro-code-token-parameter: #7db4d8;
-  --astro-code-token-string-expression: #d4b87a;
-  --astro-code-token-punctuation: var(--fg-muted);
-  --astro-code-token-link: var(--link);
+pre span[style*="--astro-code-token-comment"] {
+  font-style: italic;
 }
 
-/* copy code button on codeblocks */
+pre span[style*="--astro-code-token-keyword"] {
+  /* 700 is what's actually loaded for Geist Mono; asking for 600 would
+     just round up to the same file. */
+  font-weight: 700;
+}
+
 .copy-code {
-  @apply absolute right-3 top-3 grid size-9 place-content-center rounded-sm text-center duration-300 ease-in-out;
-  border: 1px solid color-mix(in srgb, var(--fg) 20%, transparent);
-  background-color: var(--bg);
+  @apply absolute top-3 right-3 grid size-9 place-content-center rounded-sm text-center transition-colors duration-200 ease-out;
+  border: 1px solid var(--rule);
+  background-color: var(--paper);
 }
 
 .copy-code:hover {
-  @apply transition-colors;
-  background-color: var(--bg-soft);
+  background-color: var(--paper-raised);
 }
 
 .copy-code:active {

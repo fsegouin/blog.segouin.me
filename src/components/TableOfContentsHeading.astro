@@ -1,8 +1,12 @@
 ---
-import type { Heading } from "./TableOfContents.astro";
+import type { TocHeading } from "./TableOfContents.astro";
 import Link from "./Link.astro";
 
 // https://kld.dev/building-table-of-contents/
+
+type Props = {
+  heading: TocHeading;
+};
 
 const { heading } = Astro.props;
 ---
@@ -14,7 +18,7 @@ const { heading } = Astro.props;
   {
     heading.subheadings.length > 0 && (
       <ul class="translate-x-3">
-        {heading.subheadings.map((subheading: Heading) => (
+        {heading.subheadings.map((subheading: TocHeading) => (
           <Astro.self heading={subheading} />
         ))}
       </ul>

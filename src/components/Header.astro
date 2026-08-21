@@ -1,65 +1,49 @@
 ---
 import Container from "@components/Container.astro";
-import Link from "@components/Link.astro";
 import { SITE } from "@consts";
-
-interface Props {
-  projectCount?: number;
-}
-
-const { projectCount = 0 } = Astro.props;
-
-const today = new Date().toLocaleDateString("en-US", {
-  weekday: "long",
-  year: "numeric",
-  month: "long",
-  day: "numeric",
-});
 ---
 
 <header transition:persist>
   <Container>
-    <div class="flex flex-col items-center gap-1">
-      <hr class="newspaper-rule w-full" />
-      <div class="flex w-full items-center justify-between py-1 text-xs tracking-wide opacity-60">
-        <span>{today}</span>
+    <div
+      class="border-rule flex items-center justify-between gap-4 border-b pb-4"
+    >
+      <a
+        href="/"
+        class="text-ink hover:decoration-ink focus-visible:decoration-ink font-serif text-base font-medium underline decoration-transparent underline-offset-[3px] transition-colors duration-200 ease-out"
+      >
+        {SITE.TITLE}
+      </a>
+
+      <nav aria-label="Main" class="flex items-center gap-4 sm:gap-5">
+        <a
+          href="/tags"
+          class="text-ink-faint hover:text-ink focus-visible:text-ink font-sans text-sm transition-colors duration-200 ease-out"
+          >Tags</a
+        >
+
         <button
           id="magnifying-glass"
           aria-label="Search"
-          class="flex items-center gap-1 transition-colors duration-300 ease-in-out hover:text-black focus-visible:text-black dark:hover:text-white dark:focus-visible:text-white"
+          class="text-ink-faint hover:bg-paper-raised hover:text-ink focus-visible:bg-paper-raised focus-visible:text-ink grid size-8 place-content-center rounded-sm transition-colors duration-200 ease-out"
         >
           <svg
-            height="14"
-            stroke-linejoin="round"
+            aria-hidden="true"
+            focusable="false"
+            width="16"
+            height="16"
             viewBox="0 0 16 16"
-            width="14"
-            style="color: currentcolor;"
-            ><path
-              fill-rule="evenodd"
-              clip-rule="evenodd"
-              d="M3.5 7C3.5 5.067 5.067 3.5 7 3.5C8.933 3.5 10.5 5.067 10.5 7C10.5 7.88461 10.1718 8.69256 9.63058 9.30876L9.30876 9.63058C8.69256 10.1718 7.88461 10.5 7 10.5C5.067 10.5 3.5 8.933 3.5 7ZM9.96544 11.0261C9.13578 11.6382 8.11014 12 7 12C4.23858 12 2 9.76142 2 7C2 4.23858 4.23858 2 7 2C9.76142 2 12 4.23858 12 7C12 8.11014 11.6382 9.13578 11.0261 9.96544L14.0303 12.9697L14.5607 13.5L13.5 14.5607L12.9697 14.0303L9.96544 11.0261Z"
-              fill="currentColor"></path></svg
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
           >
-          Search
+            <circle cx="7" cy="7" r="4.25"></circle>
+            <line x1="10.2" y1="10.2" x2="13.5" y2="13.5"></line>
+          </svg>
         </button>
-      </div>
-      <hr class="newspaper-rule w-full" />
-      <Link href="/" underline={false}>
-        <h1 class="font-headline py-2 text-3xl font-bold tracking-tight text-black sm:text-4xl dark:text-white">
-          {SITE.TITLE}
-        </h1>
-      </Link>
-      <hr class="newspaper-rule w-full" />
-      <nav class="flex items-center gap-4 py-1 text-sm tracking-wide">
-        <Link href="/blog">Blog</Link>
-        {projectCount > 0 && (
-          <>
-            <span class="opacity-30">|</span>
-            <Link href="/projects">Projects</Link>
-          </>
-        )}
       </nav>
-      <hr class="newspaper-rule w-full" />
     </div>
   </Container>
 </header>

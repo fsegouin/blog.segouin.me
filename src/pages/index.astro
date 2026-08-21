@@ -4,120 +4,76 @@ import Container from "@components/Container.astro";
 import { SITE, HOME, SOCIALS } from "@consts";
 import ArrowCard from "@components/ArrowCard.astro";
 import Link from "@components/Link.astro";
-import { getCollection } from "astro:content";
-import type { CollectionEntry } from "astro:content";
+import { type CollectionEntry, getCollection } from "astro:content";
 
-const blog = (await getCollection("blog"))
+const data = (await getCollection("blog"))
   .filter((post) => !post.data.draft)
-  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
-  .slice(0, SITE.NUM_POSTS_ON_HOMEPAGE);
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 
-const projects: CollectionEntry<"projects">[] = (
-  await getCollection("projects")
-)
-  .filter((project) => !project.data.draft)
-  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
-  .slice(0, SITE.NUM_PROJECTS_ON_HOMEPAGE);
+type PostsByYear = Record<string, CollectionEntry<"blog">[]>;
+
+const posts = data.reduce((acc: PostsByYear, post) => {
+  const year = post.data.date.getFullYear().toString();
+  acc[year] ??= [];
+  acc[year].push(post);
+  return acc;
+}, {});
+
+const years = Object.keys(posts).sort((a, b) => Number(b) - Number(a));
 ---
 
 <Layout title={HOME.TITLE} description={HOME.DESCRIPTION}>
   <Container>
-    <aside data-pagefind-ignore>
-      <h1 class="font-headline text-2xl font-bold italic text-black dark:text-white">
+    <div class="space-y-14" data-pagefind-ignore>
+      <h1 class="animate text-ink font-serif text-2xl font-medium italic">
         Working Draft.
       </h1>
-      <div class="space-y-16">
-        <section>
-          <article class="space-y-4">
-            <span>
-              <p>
-                This is not a fresh start, a commitment, or a new habit I swear I will stick.
-                It's a place to think in public, imperfectly, and to leave a trail I can follow later.
-                I've learned that waiting to be ready is an excellent way to never begin, so this exists instead.
-              </p>
-              <p>
-                Back to mumbling.
-              </p>
-            </span>
-          </article>
-        </section>
 
-        {blog.length > 0 && (
-          <section class="animate space-y-6">
-            <div class="flex flex-wrap items-center justify-between gap-y-2">
-              <h2 class="section-label text-lg font-semibold text-black dark:text-white">
-                Latest Posts
-              </h2>
-              <Link href="/blog"> See all posts </Link>
-            </div>
-            <ul class="not-prose flex flex-col">
-              {
-                blog.map((post) => (
+      <div class="space-y-12">
+        {
+          years.map((year) => (
+            <section class="animate">
+              <h2 class="label border-rule border-b pb-3">{year}</h2>
+              <ul class="not-prose flex flex-col">
+                {posts[year].map((post) => (
                   <li>
                     <ArrowCard entry={post} />
                   </li>
-                ))
-              }
-            </ul>
-          </section>
-        )}
-
-        {projects.length > 0 && (
-          <section class="animate space-y-6">
-            <div class="flex flex-wrap items-center justify-between gap-y-2">
-              <h2 class="section-label text-lg font-semibold text-black dark:text-white">
-                Recent Projects
-              </h2>
-              <Link href="/projects"> See all projects </Link>
-            </div>
-            <ul class="not-prose flex flex-col">
-              {
-                projects.map((project) => (
-                  <li>
-                    <ArrowCard entry={project} />
-                  </li>
-                ))
-              }
-            </ul>
-          </section>
-        )}
-
-        <section class="animate space-y-4">
-          <h2 class="section-label text-lg font-semibold text-black dark:text-white">
-            Let's Connect
-          </h2>
-          <article>
-            <p>
-              If you want to get in touch with me about something or just to say
-              hi, reach out on social media or send me an email.
-            </p>
-          </article>
-          <ul class="not-prose flex flex-wrap gap-2">
-            {
-              SOCIALS.map((SOCIAL) => (
-                <li class="flex gap-x-2 text-nowrap">
-                  <Link
-                    href={SOCIAL.HREF}
-                    external
-                    aria-label={`${SITE.TITLE} on ${SOCIAL.NAME}`}
-                  >
-                    {SOCIAL.NAME}
-                  </Link>
-                  {"/"}
-                </li>
-              ))
-            }
-            <li class="line-clamp-1">
-              <Link
-                href={`mailto:${SITE.EMAIL}`}
-                aria-label={`Email ${SITE.TITLE}`}
-              >
-                {SITE.EMAIL}
-              </Link>
-            </li>
-          </ul>
-        </section>
+                ))}
+              </ul>
+            </section>
+          ))
+        }
       </div>
-    </aside>
+
+      <section class="animate pt-6">
+        <div class="border-rule border-b pb-3">
+          <h2 class="label">Elsewhere</h2>
+        </div>
+        <ul class="not-prose mt-5 flex flex-wrap gap-x-5 gap-y-2">
+          {
+            SOCIALS.map((SOCIAL) => (
+              <li>
+                <Link
+                  href={SOCIAL.HREF}
+                  external
+                  aria-label={`${SITE.TITLE} on ${SOCIAL.NAME} (opens in a new tab)`}
+                >
+                  <span class="font-sans text-sm">{SOCIAL.NAME}</span>
+                </Link>
+              </li>
+            ))
+          }
+          <li>
+            <Link
+              href={`mailto:${SITE.EMAIL}`}
+              aria-label={`Email ${SITE.TITLE}`}
+            >
+              <span class="font-sans text-sm">{SITE.EMAIL}</span>
+            </Link>
+          </li>
+        </ul>
+      </section>
+    </div>
   </Container>
 </Layout>

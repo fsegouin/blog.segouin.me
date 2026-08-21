@@ -6,6 +6,7 @@ slug: "the-convenience-of-not-owning-anything"
 toc: false
 tags:
   - journal
+  - photography
 ---
 
 import { Image } from "astro:assets";
@@ -14,82 +15,52 @@ import hp5_1 from "./Japan-HP5-1.jpg";
 
 <Image
   src={introImage}
-  widths={[480, 640]}
-  sizes="(max-width: 640px) 100vw, 640px"
+  loading="eager"
+  fetchpriority="high"
+  widths={[480, 720, 1440]}
+  sizes="(max-width: 768px) 100vw, 720px"
   alt="Deer taking a nap in Nara, Japan"
 />
 
-Lately, I’ve been sitting with a slightly uncomfortable thought: I don’t really own anything anymore.
+Here’s a thought I haven’t been able to shake lately: I don’t really own anything anymore.
 
-The movies I watch live on streaming platforms. The music I listen to is tied to a subscription. I take thousands of photos every year, and most of them end up somewhere in the cloud, rarely revisited. Everything is accessible. And yet, very little feels like it’s truly mine.
+The movies I watch live on streaming platforms. The music I listen to is tied to a subscription. I take thousands of photos every year and most of them end up somewhere in the cloud, never looked at again. Everything is accessible, and almost none of it feels like it’s actually mine.
 
-This isn’t about money. In many ways, things are better now. Access is easier. Storage is cheaper. I wouldn’t seriously argue that we should go back.
+This isn’t a complaint about money. Things are better now in a lot of ways: access is easier, storage is cheap, and I wouldn’t seriously argue that we should go back. But something about it has been bothering me, and it took me a while to work out what.
 
-But something feels different.
+When I think back to being a kid, what I remember is how attached I got to the very few things I actually had. One Christmas I was given a PlayStation 1 with two games, Crash Bandicoot and Spyro, and that was my entire world for a very long time.
 
-When I think back to being a kid, I remember how attached I became to the few things I actually had.
+I played them constantly. I replayed levels I’d already finished just to see if I could do them better, and I tried to collect everything even when it didn’t matter at all. I remember getting properly stuck on certain sections and slowly figuring them out through trial and error. It wasn’t always fun. Sometimes it was just frustrating. But I kept going, and it never once felt limiting, because I wasn’t thinking about what else I could have been playing. I had those two games and they were enough.
 
-One Christmas I was gifted a PlayStation 1. Along with it came two games: Crash Bandicoot and Spyro. That was my world for a long time.
+Looking back, I can see how much that shaped me. Those games rewarded exploration and didn’t always point you in the right direction, so you had to pay attention, experiment, and fail before you got any better. Somewhere in there I learned that I enjoy solving difficult problems, that I like chasing things to completion, and that I’m fine not being told exactly where to go next. The repetition wasn’t boring, it was building something.
 
-I played them constantly. I replayed levels I had already finished just to see if I could do them better. I tried to collect everything, even when it didn’t really matter. I remember getting stuck on certain sections and slowly figuring them out through trial and error. It wasn’t always fun in the moment. Sometimes it was frustrating. But I kept going.
+I didn’t realise at the time how much ownership, even of something as small as a game, encouraged that kind of depth. When you only have a few things, you stay with them longer, and you end up in a relationship with them.
 
-At the time, it never felt limiting. I wasn’t thinking about what else I could be playing. I had those two games, and that was enough.
+That thought sat at the back of my mind for years, and it only really came into focus during a trip to Japan in November 2024.
 
-Looking back, I can see how much that shaped me. They rewarded exploration. They didn’t always point you in the right direction. You had to pay attention. You had to experiment. You had to fail before you improved.
+I’d wanted to go since I was a kid. Growing up in the 90s, Japan felt mythical to me, and when my wife and I finally planned the trip I knew I wanted to experience it differently, not entirely through my phone screen. So I bought a film camera.
 
-Somewhere in there, I learned that I enjoy solving difficult problems. I like chasing things to completion. I’m comfortable not being told exactly where to go next.
+Not a carefully tested one, either: an untested Nikon F90x I found for cheap and sold as-is. There was a real chance I’d come home with ten days of blank film, which made me slightly uneasy and, oddly, a lot more committed. I packed four rolls of HP5 Plus and decided that would be enough. A fixed number of exposures, no instant feedback, no second chances.
 
-Repetition wasn’t boring. It built something.
-
-I don’t think I realized at the time how much ownership (even of something as simple as a game) encouraged depth. When you only have a few things, you stay with them longer. You form a relationship with them.
-
-That thought stayed in the back of my mind for years, but it became clearer during a trip to Japan in November 2024.
-
-I had wanted to go there since I was a kid. Growing up in the 90s, Japan felt mythical to me. When my wife and I finally planned the trip, I knew I wanted to experience it differently. I didn’t want to see it entirely through my phone screen.
-
-So I bought a film camera.
-
-Not a carefully tested one, either. An untested Nikon F90x I found for cheap. There was a real chance I’d come back with ten days of blank film. That possibility made me slightly uneasy, but also strangely committed.
-
-I packed five rolls of HP5 Plus and decided that would be enough. A fixed number of exposures. No instant feedback. No second chances.
-
-One evening in Tokyo, I stood for nearly thirty minutes in front of a small shop in a quiet alley. The light was perfect. I could imagine how it might look in black and white. I waited for someone to pass through the frame, to give the scene a bit of movement. I remember hesitating before pressing the shutter, asking myself whether this moment was worth one of the exposures I had left.
+One evening in Tokyo I stood for nearly thirty minutes in front of a small shop in a quiet alley. The light was perfect and I could already picture how it would look in black and white. I waited for someone to walk through the frame to give the scene a bit of movement, and I remember hesitating before pressing the shutter, working out whether this moment was worth one of the exposures I had left.
 
 <Image
   src={hp5_1}
-  widths={[480, 640]}
-  sizes="(max-width: 640px) 100vw, 640px"
+  widths={[480, 720, 1440]}
+  sizes="(max-width: 768px) 100vw, 720px"
   alt="Man walking in front of a store in Shinjuku, Tokyo, Japan"
 />
 
-That hesitation changed something.
+That hesitation is the part I keep coming back to. Over those two weeks I barely touched my phone for photos. I couldn’t shoot twenty versions of something and sort it out later, so I had to decide in the moment whether it mattered, and that changed what I actually saw. Every frame was a decision rather than a recording. I’m fairly sure I’d have felt the same way even if every roll had come back blank, because the value wasn’t only in the images, it was in the way the process made me look at what was around me.
 
-Over those two weeks, I barely used my phone for photos. I noticed more. I slowed down. I chose more carefully. I couldn’t take dozens of versions and sort it out later. I had to decide in the moment whether something mattered.
+That trip made me think a lot more about how I consume everything else now.
 
-Film introduced friction again: limited shots, delayed results, something physical at the end of it all. Every frame felt intentional. I wasn’t just recording. I was participating.
+So much of it runs without me. When I open a music app there’s already something waiting. When a show ends the next one starts without asking. Even when I take a photo, my phone suggests how it could be improved. None of this is bad, and most of the time it’s helpful, but I’ve noticed how easy it is to drift along with it. I don’t always choose what to watch next. I rarely scroll far past what’s recommended. I let it keep going because that’s easier than deciding.
 
-And the strange thing is, I’m fairly sure I would have felt the same way even if all five rolls had come back blank. The value wasn’t only in the images. It was in the way the process made me look at what was around me.
+I’m not claiming the 90s were better, and I don’t actually want to give up the convenience. But I do miss certain kinds of slowness, and I miss being bored. Boredom forced me to pick something, and those small choices, repeated over years, shaped my taste in ways I didn’t understand at the time.
 
-That experience made me think more about how I consume things now.
+We’ve gone from selecting and owning to accessing and being guided, and for a lot of people that reads as freedom: fewer decisions, less effort. I understand the appeal. But I’m starting to see what it costs. When I don’t actively choose something, I don’t build the same connection to it, and when nothing asks anything of me, I find it much harder to give it my full attention.
 
-So much of our digital life runs smoothly. When I open a music app, there’s already something waiting for me. When a show ends, the next one starts without asking much from me. Even when I take a photo, the phone suggests how it could be improved.
+Japan didn’t need a film camera to be meaningful. It already was. The camera just slowed me down enough to feel it properly.
 
-None of this is inherently bad. In many situations, it’s helpful. But I’ve noticed how easy it is to drift. I don’t always choose what to watch next. I rarely scroll far past what’s recommended. I let it continue because it’s easier than deciding.
-
-Over time, I wonder what that does to us.
-
-This isn’t about claiming that the 90s were better. I don’t actually want to give up the convenience we have now. But I do miss certain kinds of slowness. I even miss being bored sometimes. Boredom forced me to choose something. And those small choices, repeated over time, shaped my taste and my interests in ways I didn’t fully understand back then.
-
-We’ve shifted from selecting and owning to accessing and being guided. For some people, that feels like freedom. Fewer decisions. Less effort. And I understand that.
-
-But I’m starting to see the trade-off. When we don’t actively choose, we don’t build the same connection. When nothing really demands our attention, it’s harder to give it fully.
-
-Japan didn’t need a film camera to be meaningful. It already was. The camera simply slowed me down enough to feel it properly.
-
-Since then, I’ve been paying closer attention to how often I operate on autopilot. How often I consume instead of commit. How rarely I sit with something long enough for it to leave a mark.
-
-I don’t have a clear answer yet. I’m not interested in rejecting technology or pretending we’ve made a mistake as a society. But I do think there’s something worth exploring in reintroducing a bit of intentional friction - not everywhere, just in the places that shape us.
-
-Because when nothing feels truly ours - not physically, not mentally, not deliberately - something subtle fades.
-
-And lately, I’ve been trying to understand what that something is.
+Since then I’ve been paying closer attention to how much of my day runs on autopilot, and I’ve started putting a bit of friction back into the places that seem worth it. Not everywhere. Just where it changes what I get out of something.
