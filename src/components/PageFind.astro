@@ -35,11 +35,22 @@ import Search from "astro-pagefind/components/Search";
   const magnifyingGlass = document.getElementById("magnifying-glass");
   const backdrop = document.getElementById("backdrop");
 
+  function isTypingTarget(target) {
+    if (!target || !target.tagName) return false;
+    return (
+      target.isContentEditable ||
+      target.tagName === "INPUT" ||
+      target.tagName === "TEXTAREA" ||
+      target.tagName === "SELECT"
+    );
+  }
+
   function openPagefind() {
+    // Pagefind mounts its input from a deferred module script, so on a cold
+    // load the input may not exist yet.
     const searchDiv = document.getElementById("search");
-    const search = searchDiv.querySelector("input");
     setTimeout(() => {
-      search.focus();
+      searchDiv?.querySelector("input")?.focus();
     }, 0);
     backdrop?.classList.remove("invisible");
     backdrop?.classList.add("visible");
@@ -58,6 +69,9 @@ import Search from "astro-pagefind/components/Search";
 
   document.addEventListener("keydown", (e) => {
     if (e.key === "/") {
+      // A bare single-character shortcut has to yield while the caret is in
+      // a field, or `/` can never be typed into the search box it opens.
+      if (isTypingTarget(e.target)) return;
       e.preventDefault();
       openPagefind();
     } else if ((e.metaKey || e.ctrlKey) && e.key === "k") {

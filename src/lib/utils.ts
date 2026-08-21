@@ -17,9 +17,14 @@ export function formatDate(date: Date) {
 
 const WORDS_PER_MINUTE = 200;
 
-export function readingTime(html: string) {
-  const textOnly = html.replace(/<[^>]+>/g, "");
-  const wordCount = textOnly.split(/\s+/).length;
+export function readingTime(markdown: string) {
+  const textOnly = markdown
+    // MDX compiles ESM import/export statements away, so they never reach
+    // the reader. Tag markup is stripped by the next rule, but these are
+    // bare statements with no angle brackets to catch them.
+    .replace(/^[ \t]*(?:import|export)\s[^\n]*$/gm, "")
+    .replace(/<[^>]+>/g, "");
+  const wordCount = textOnly.split(/\s+/).filter(Boolean).length;
   const readingTimeMinutes = (wordCount / WORDS_PER_MINUTE + 1).toFixed();
   return `${readingTimeMinutes} min read`;
 }

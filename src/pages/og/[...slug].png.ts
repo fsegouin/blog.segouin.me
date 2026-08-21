@@ -1,14 +1,12 @@
 import type { APIRoute, GetStaticPaths } from "astro";
-import { getCollection } from "astro:content";
 import satori from "satori";
 import sharp from "sharp";
 import { getOgFonts } from "@lib/og-fonts";
 import { getOgTemplate } from "@lib/og-template";
+import { getPublishedPosts } from "@lib/posts";
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const posts = (await getCollection("blog")).filter(
-    (post) => !post.data.draft,
-  );
+  const posts = await getPublishedPosts();
   return posts.map((post) => ({
     params: { slug: post.data.slug },
     props: post,
