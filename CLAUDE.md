@@ -76,12 +76,11 @@ Content files use numbered folder prefixes for ordering (e.g., `00-hello-world/i
 These apply to everything under `src/content/blog/`. The prose there is the
 author's own voice, not generated copy.
 
-### Never introduce em-dashes or en-dashes
+### Never introduce em-dashes
 
-**Do not add `—` (em-dash, U+2014) or `–` (en-dash, U+2013) to a blog post.**
-Not when drafting, not when editing, not when rewriting or tightening an
-existing sentence. They are the single clearest tell of LLM-written prose and
-the author does not use them.
+**Do not add `—` (em-dash, U+2014) to a blog post.** Not when drafting, not
+when editing, not when rewriting or tightening an existing sentence. It is the
+single clearest tell of LLM-written prose and the author does not use it.
 
 Use instead, in rough order of preference:
 
@@ -99,17 +98,20 @@ Good:  My dad lent me his Nikon D70 (I don't think he was still using it),
        and I took photos with it now and then.
 ```
 
-A hyphen in a compound word (`point-and-shoot`, `black-and-white`) is fine —
-this rule is about dashes used as punctuation between clauses.
+This rule is about the em-dash specifically, in any use, not only as
+punctuation between clauses. Every other dash is fine and needs no
+justification: the plain hyphen `-` (`point-and-shoot`, `well-known`,
+`2009-2015`) and the en-dash `–` are both allowed anywhere. Do not "fix" them.
 
-If the author has written one themselves, leave it alone unless they ask you
-to change it. This rule forbids _introducing_ dashes and forbids unrequested
-rewriting; it does not block an explicit request to remove existing ones.
+If the author has written an em-dash themselves, leave it alone unless they
+ask you to change it. This rule forbids _introducing_ em-dashes and forbids
+unrequested rewriting; it does not block an explicit request to remove
+existing ones.
 
 To check before handing back an edit:
 
 ```bash
-grep -n '—\|–' src/content/blog/*/index.md*
+grep -n '—' src/content/blog/*/index.md*
 ```
 
 ### Don't touch prose that wasn't asked about
