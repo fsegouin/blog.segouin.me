@@ -13,6 +13,8 @@ export default defineConfig({
   redirects: {
     "/blog": "/",
     "/projects": "/",
+    // Renamed after publishing, so the original URL is already out there.
+    "/reflecting-on-my-photography-journey": "/three-things-my-dad-said/",
   },
   integrations: [sitemap(), mdx(), pagefind()],
   vite: {

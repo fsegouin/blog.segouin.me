@@ -60,7 +60,7 @@ Content files use numbered folder prefixes for ordering (e.g., `00-hello-world/i
 
 ## Key Configuration Files
 
-- `astro.config.mjs` - Astro settings, integrations, Shiki syntax highlighting, `/blog` and `/projects` redirects to `/`
+- `astro.config.mjs` - Astro settings, integrations, Shiki syntax highlighting, and `redirects` (`/blog` and `/projects` to `/`, plus one per renamed post so its published URL keeps resolving)
 - `src/consts.ts` - Site metadata (SITE, HOME) and social links
 - `tsconfig.json` - TypeScript config with `@*` path alias for `./src/*`
 
