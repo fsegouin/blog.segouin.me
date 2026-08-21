@@ -35,16 +35,6 @@ import Search from "astro-pagefind/components/Search";
   const magnifyingGlass = document.getElementById("magnifying-glass");
   const backdrop = document.getElementById("backdrop");
 
-  function isTypingTarget(target) {
-    if (!target || !target.tagName) return false;
-    return (
-      target.isContentEditable ||
-      target.tagName === "INPUT" ||
-      target.tagName === "TEXTAREA" ||
-      target.tagName === "SELECT"
-    );
-  }
-
   function openPagefind() {
     // Pagefind mounts its input from a deferred module script, so on a cold
     // load the input may not exist yet.
@@ -67,15 +57,27 @@ import Search from "astro-pagefind/components/Search";
     openPagefind();
   });
 
+  // Deliberately no bare `/` binding. WCAG SC 2.1.4 puts single-character
+  // shortcuts in scope unless they can be turned off, remapped, or are live
+  // only while their own component has focus, and a document-wide `/` is
+  // none of those: speech input transcribes a stray utterance as the key and
+  // the dialog opens unbidden. A modifier-bearing shortcut is out of scope.
   document.addEventListener("keydown", (e) => {
-    if (e.key === "/") {
-      // A bare single-character shortcut has to yield while the caret is in
-      // a field, or `/` can never be typed into the search box it opens.
-      if (isTypingTarget(e.target)) return;
+    // `!shiftKey` keeps Ctrl+Shift+K (Firefox's web console) out of this,
+    // while `toLowerCase` still matches with Caps Lock on.
+    if (
+      (e.metaKey || e.ctrlKey) &&
+      !e.shiftKey &&
+      e.key.toLowerCase() === "k"
+    ) {
+      // Claim the chord in both states. Chrome and Firefox bind Cmd/Ctrl+K to
+      // their own address bar, and macOS text fields read Ctrl+K as
+      // delete-to-end-of-paragraph, so returning before this hands the key
+      // to the browser and pulls focus out of the page entirely.
       e.preventDefault();
-      openPagefind();
-    } else if ((e.metaKey || e.ctrlKey) && e.key === "k") {
-      e.preventDefault();
+      // Reopening while it is already open would drag focus back to the
+      // input from wherever the reader had moved it in the results.
+      if (backdrop?.classList.contains("visible")) return;
       openPagefind();
     }
   });
