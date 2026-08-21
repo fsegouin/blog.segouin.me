@@ -33,7 +33,7 @@ src/
 │   └── 404.astro       # Not-found page
 ├── content/
 │   └── blog/           # Blog posts (numbered folders with index.mdx)
-├── lib/                # utils.ts (cn, formatDate, readingTime), og-fonts.ts, og-template.ts
+├── lib/                # utils.ts (cn, formatDate, readingTime), posts.ts, og-fonts.ts, og-template.ts
 ├── styles/global.css   # Tailwind entry, design tokens, base styles
 ├── consts.ts           # Site configuration (title, description, social links)
 ├── types.ts            # TypeScript type definitions
@@ -70,6 +70,52 @@ Content files use numbered folder prefixes for ordering (e.g., `00-hello-world/i
 - Light theme only — no dark mode and no theme toggle (see the palette comment in `src/styles/global.css`)
 - Global styles in `src/styles/global.css`
 - Class merging utilities: `clsx` + `tailwind-merge` via `cn()` helper
+
+## Writing Rules
+
+These apply to everything under `src/content/blog/`. The prose there is the
+author's own voice, not generated copy.
+
+### Never introduce em-dashes or en-dashes
+
+**Do not add `—` (em-dash, U+2014) or `–` (en-dash, U+2013) to a blog post.**
+Not when drafting, not when editing, not when rewriting or tightening an
+existing sentence. They are the single clearest tell of LLM-written prose and
+the author does not use them.
+
+Use instead, in rough order of preference:
+
+- a full stop, splitting the sentence in two
+- a comma, for a light aside
+- parentheses, for a genuine aside
+- a colon, when the second half explains the first
+
+```
+Bad:   My dad lent me his Nikon D70 — I don't think he was still using it —
+       and I took photos with it now and then.
+Good:  My dad lent me his Nikon D70. I don't think he was still using it. I
+       took photos with it now and then.
+Good:  My dad lent me his Nikon D70 (I don't think he was still using it),
+       and I took photos with it now and then.
+```
+
+A hyphen in a compound word (`point-and-shoot`, `black-and-white`) is fine —
+this rule is about dashes used as punctuation between clauses.
+
+If the author has written one themselves, leave it alone unless they ask you
+to change it. This rule forbids _introducing_ dashes and forbids unrequested
+rewriting; it does not block an explicit request to remove existing ones.
+
+To check before handing back an edit:
+
+```bash
+grep -n '—\|–' src/content/blog/*/index.md*
+```
+
+### Don't touch prose that wasn't asked about
+
+Editing a post means doing what was asked. Do not silently "improve" wording,
+tighten sentences, or fix the author's grammar in passages outside the request.
 
 ## Adding Content
 
